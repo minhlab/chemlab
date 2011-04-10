@@ -4,24 +4,23 @@
 	import flash.utils.setInterval;
 	import flash.utils.clearInterval;
 
-	public class FallAnimation
+	public class FallAnimation extends AbstractAnimation
 	{
 
-		private var o:MovieClip;
 		private var dyMax = 17,dy1 = 50,dy2 = 25;
 		private var dt = 40; // (ms)
-		private var y0:int,y1:int,y2:int,y3:int;
+		private var y0:Number,y1:Number,y2:Number,y3:Number;
 		private var i:int = 0,k:int = 0;
 		private var phraseId:uint;
 
-		public function FallAnimation(o: MovieClip, destY : int)
+		public function FallAnimation(o: MovieClip, destY : Number)
 		{
+			super(o);
 			if (o.y + o.height > destY)
 			{
 				throw "Invalid argument: the object is below destination y coordinate.";
 			}
 
-			this.o = o;
 			// parameters
 			y0 = o.y;
 			y3 = destY - o.height;
@@ -39,14 +38,15 @@
 			//trace(y0 + ", " + y1 + ", " + y2 + ", " + y3);
 		}
 
-		public function run()
+		public override function run()
 		{
 			//trace(o.y);
 			phraseId = setInterval(phrase1,dt);
 		}
 
-		public function stop()
+		public override function stop()
 		{
+			super.stop();
 			clearInterval(phraseId);
 			//trace(id + " stoped.");
 		}
@@ -98,7 +98,7 @@
 			if (dy <= 0 || o.y >= y3)
 			{
 				o.y = y3;
-				clearInterval(phraseId);
+				stop();
 			}
 		}
 

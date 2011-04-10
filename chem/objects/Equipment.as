@@ -1,44 +1,68 @@
-﻿package chem.objects {
-	
+﻿package chem.objects
+{
+
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	import chem.util.Animation;
-	
-	public class Equipment extends MovieClip {
+	import flash.events.Event;
 
-		private var dragging: Boolean = false;
-		private var startX, startY : int;
+	public class Equipment extends MovieClip
+	{
 
-		public function Equipment() {
+		private var dragging:Boolean = false;
+		private var startX,startY:Number;
+
+		public function Equipment()
+		{
+			this.addEventListener(Event.ADDED_TO_STAGE, function() {
+			stage.addEventListener(MouseEvent.MOUSE_UP, equipmentOnMouseUp);  
+			});
 			this.addEventListener(MouseEvent.MOUSE_DOWN, equipmentOnMouseDown);
-			this.addEventListener(MouseEvent.MOUSE_MOVE, equipmentOnMouseMove);
-			this.addEventListener(MouseEvent.MOUSE_UP, equipmentOnMouseUp);
+			this.addEventListener(Event.ENTER_FRAME, equipmentOnMouseMove);
 		}
 
-		public function equipmentOnMouseDown(evt: MouseEvent) {
-			this.dragging = true;
-			startX = evt.stageX - x;
-			startY = evt.stageY - y;
-			Animation.stop(this);
-		}
-
-		public function equipmentOnMouseMove(evt: MouseEvent) {
-			if (dragging) {
-				this.x = evt.stageX - startX;
-				this.y = evt.stageY - startY;
+		public function equipmentOnMouseDown(evt: MouseEvent)
+		{
+			if (!dragging) {
+				this.dragging = true;
+				startX = stage.mouseX - x;
+				startY = stage.mouseY - y;
+				Animation.stop(this);
+				Main.instance.table.removeEquipment(this);
 			}
 		}
 
-		public function equipmentOnMouseUp(evt: MouseEvent) {
-			this.dragging = false;
-			var destY = Main.instance.desk.topY;
-			if (y + height < destY) {
-				Animation.fall(this, destY);
-			} else {
-				y = destY - height;
+		public function equipmentOnMouseMove(evt: Event)
+		{
+			if (dragging)
+			{
+				x = stage.mouseX - startX;
+				y = stage.mouseY - startY;
+				//trace(mouseX + ", " + mouseY);
+			}
+		}
+
+		public function equipmentOnMouseUp(evt: MouseEvent)
+		{
+			if (dragging) {
+				this.dragging = false;
+				var destY = Main.instance.table.topY;
+				if (y + height < destY)
+				{
+					var added : Boolean = Main.instance.table.addEquipment(this);
+					if (added) {
+						Animation.fall(this, destY);
+					} else {
+						parent.removeChild(this);
+					}
+				}
+				else
+				{
+					y = destY - height;
+				}
 			}
 		}
 
 	}
-	
+
 }

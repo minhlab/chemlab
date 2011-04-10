@@ -26,7 +26,7 @@
 		public function prototypeOnMouseMove(evt: MouseEvent) {
 			if (dragging) {
 				var equipment : Equipment = createEquipment();
-				equipment.x = evt.stageX;// - equipment.width/2;
+				equipment.x = evt.stageX - equipment.width/2;
 				equipment.y = evt.stageY - equipment.height/2;
 				Main.instance.addChild(equipment);
 				equipment.equipmentOnMouseDown(evt);

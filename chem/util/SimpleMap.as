@@ -11,7 +11,7 @@
 		{
 		}
 
-		public function put(key : Object, value : Object)
+		public function put(key, value)
 		{
 			var index:int = keys.indexOf(key);
 			if (index >= 0)
@@ -25,7 +25,7 @@
 			}
 		}
 
-		public function get(key):Object
+		public function get(key)
 		{
 			var index:int = keys.indexOf(key);
 			if (index >= 0)
@@ -35,6 +35,15 @@
 			else
 			{
 				return null;
+			}
+		}
+		
+		public function remove(key) {
+			var index:int = keys.indexOf(key);
+			if (index >= 0)
+			{
+				keys.splice(index, 1);
+				values.splice(index, 1);
 			}
 		}
 
