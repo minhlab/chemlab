@@ -16,10 +16,18 @@
 		{
 
 		}
+		
+		public function get equipmentCount(): int {
+			return equipments.length;
+		}
+		
+		public function getEquipment(i: int): Equipment {
+			return equipments[i];
+		}
 
 		public function addEquipment(e:Equipment):Boolean
 		{
-			var index:int = 0;
+			var index:int = 0, i:int;
 			while (index < equipments.length && equipments[index].x < e.x)
 			{
 				index++;
@@ -38,7 +46,7 @@
 			var totalDelta : Number = e.width - (r-l) + 2*gmin;
 			var totalGap:Number = 0;
 			var g : Array = new Array();
-			for (var i = 0; i < index; i++)
+			for (i = 0; i < index; i++)
 			{
 				g[i] = equipments[i].x - x - gmin;
 				if (i > 0)
@@ -47,7 +55,7 @@
 				}
 				totalGap +=  g[i];
 			}
-			for (var i = index; i < equipments.length; i++)
+			for (i = index; i < equipments.length; i++)
 			{
 				g[i] = x + width - equipments[i].x - equipments[i].width - gmin;
 				if (i < equipments.length - 1)
@@ -70,7 +78,7 @@
 					// case 2: enough space, need to move existing equipments
 					var k:Number = totalDelta / totalGap;
 					var newX = x;
-					for (var i = 0; i < index; i++)
+					for (i = 0; i < index; i++)
 					{
 						newX +=  (1-k) * g[i] + gmin;
 						if (i > 0)
@@ -80,7 +88,7 @@
 						moveEquipment(equipments[i], newX);
 					}
 					newX = x + width;
-					for (var i = equipments.length-1; i >= index; i--)
+					for (i = equipments.length-1; i >= index; i--)
 					{
 						newX -=  equipments[i].width + (1-k) * g[i] + gmin;
 						moveEquipment(equipments[i], newX);

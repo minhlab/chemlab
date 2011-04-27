@@ -3,6 +3,7 @@
 	import chem.objects.Equipment;
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
+	import chem.objects.InteractionProvider;
 
 	public class AbstractPrototype extends MovieClip
 	{
@@ -29,7 +30,7 @@
 				equipment.x = evt.stageX - equipment.width/2;
 				equipment.y = evt.stageY - equipment.height/2;
 				Main.instance.addChild(equipment);
-				equipment.equipmentOnMouseDown(evt);
+				InteractionProvider.startDraggingEquipment(equipment);
 				dragging = false;
 			}
 		}
