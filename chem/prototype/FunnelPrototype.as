@@ -1,5 +1,6 @@
 ﻿package chem.prototype {
 	import chem.objects.Funnel;
+	import chem.objects.Equipment;
 	
 	public class FunnelPrototype extends AbstractPrototype {
 

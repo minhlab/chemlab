@@ -11,20 +11,20 @@
 
 		public function AbstractPrototype()
 		{
-			this.addEventListener(MouseEvent.MOUSE_DOWN, prototypeOnMouseDown);
-			this.addEventListener(MouseEvent.MOUSE_MOVE, prototypeOnMouseMove);
-			this.addEventListener(MouseEvent.MOUSE_UP, prototypeOnMouseUp);
+			this.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+			this.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+			this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 
-		public function prototypeOnMouseDown(evt: MouseEvent) {
+		public function onMouseDown(evt: MouseEvent) {
 			dragging = true;
 		}
 		
-		public function prototypeOnMouseUp(evt: MouseEvent) {
+		public function onMouseUp(evt: MouseEvent) {
 			dragging = false;			
 		}
 	
-		public function prototypeOnMouseMove(evt: MouseEvent) {
+		public function onMouseMove(evt: MouseEvent) {
 			if (dragging) {
 				var equipment : Equipment = createEquipment();
 				equipment.x = evt.stageX - equipment.width/2;

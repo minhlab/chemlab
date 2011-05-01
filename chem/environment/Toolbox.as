@@ -25,7 +25,15 @@
 		public function remove(p:AbstractPrototype) {
 			var index = prototypes.indexOf(p);
 			if (index >= 0) {
-				childrenWidth -= prototypes[index].width + spacing;
+				childrenWidth -= prototypes[index].width;
+				if (index > 0)
+				{
+					childrenWidth -=  spacing;
+				}
+				else
+				{
+					childrenWidth -=  margin;
+				}
 				prototypes.slice(index, 1);
 			}
 		}

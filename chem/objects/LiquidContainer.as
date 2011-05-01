@@ -10,35 +10,57 @@
 
 		public function LiquidContainer()
 		{
-			// constructor code
+			//_liquid = new Liquid(new HCl,50);
 		}
-		
-		public function startStiring():void {
+
+		public function startStiring():void
+		{
 			throw "unsupported operation";
 		}
-		
-		public function stopStiring():void {
+
+		public function stopStiring():void
+		{
 			throw "unsupported operation";
 		}
-		
-		public function addLiquid(l:Liquid) {
-			_liquid.mix(l);
+
+		public function addLiquid(l:Liquid)
+		{
+			if (_liquid == null)
+			{
+				_liquid = liquid;
+				onLiquidChanged();
+			}
+			else
+			{
+				_liquid.mix(l);
+			}
 		}
-		
-		public function clean():void {
+
+		public function clean():void
+		{
 			_liquid = null;
+			onLiquidChanged();
 		}
-		
-		public function pour(v:Number):Liquid {
+
+		public function pour(v:Number):Liquid
+		{
 			return _liquid.extract(v);
 		}
-		
-		public function startBurned():void {
-			throw "unsupported operation";
+
+		public function startBurned(v:Number):void
+		{
+			if (_liquid != null)
+			{
+				_liquid.startBurned(v);
+			}
 		}
-		
-		public function stopBurned():void {
-			throw "unsupported operation";
+
+		public function stopBurned():void
+		{
+			if (_liquid != null)
+			{
+				_liquid.stopBurned();
+			}
 		}
 
 		public function get volume():Number
@@ -49,6 +71,11 @@
 		public function get liquid():Liquid
 		{
 			return _liquid;
+		}
+
+		public function onLiquidChanged()
+		{
+
 		}
 
 	}

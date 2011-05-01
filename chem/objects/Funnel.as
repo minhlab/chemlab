@@ -1,11 +1,19 @@
-﻿package chem.objects {
-	
-	public class Funnel extends Equipment {
+﻿package chem.objects
+{
 
-		public function Funnel() {
-			// constructor code
+	public class Funnel extends Equipment
+	{
+
+		public function Funnel()
+		{
+		}
+	
+		public override function get baseLine():MovieClip
+		{
+			return _baseLine;
 		}
 
+
 	}
-	
+
 }

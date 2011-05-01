@@ -16,14 +16,14 @@
 		public function FallAnimation(o: MovieClip, destY : Number)
 		{
 			super(o);
-			if (o.y + o.height > destY)
+			if (o.y > destY)
 			{
 				throw "Invalid argument: the object is below destination y coordinate.";
 			}
 
 			// parameters
 			y0 = o.y;
-			y3 = destY - o.height;
+			y3 = destY;
 			// special positions
 			if (y0 + dy1 + dy2 < y3)
 			{

@@ -8,7 +8,7 @@
 
 	public class Table extends MovieClip
 	{
-		private var gmin = 5;// smallest gap between to objects
+		private var gmin = 10;// smallest gap between two objects
 
 		private var equipments:Array = new Array();
 
@@ -16,19 +16,31 @@
 		{
 
 		}
-		
-		public function get equipmentCount(): int {
+
+		public function get equipmentCount():int
+		{
 			return equipments.length;
 		}
-		
-		public function getEquipment(i: int): Equipment {
+
+		public function getEquipment(i: int):Equipment
+		{
 			return equipments[i];
 		}
 
 		public function addEquipment(e:Equipment):Boolean
 		{
-			var index:int = 0, i:int;
-			while (index < equipments.length && equipments[index].x < e.x)
+			var destY:Number = topY - e.baseLine.y;
+			if (e.y > destY)
+			{
+				e.y = destY;
+			}
+			else
+			{
+				Animation.fall(e, destY);
+			}
+
+			var index:int = 0,i:int;
+			while (index < equipments.length && xx(equipments[index]) < xx(e))
 			{
 				index++;
 			}
@@ -36,31 +48,31 @@
 			var l:Number = x,r:Number = x + width;
 			if (index > 0)
 			{
-				l = equipments[index - 1].x + equipments[index - 1].width;
+				l = xx(equipments[index - 1]) + ww(equipments[index - 1]);
 			}
 			if (index < equipments.length)
 			{
-				r = equipments[index].x;
+				r = xx(equipments[index]);
 			}
 
-			var totalDelta : Number = e.width - (r-l) + 2*gmin;
+			var totalDelta : Number = ww(e) - (r-l) + 2*gmin;
 			var totalGap:Number = 0;
 			var g : Array = new Array();
 			for (i = 0; i < index; i++)
 			{
-				g[i] = equipments[i].x - x - gmin;
+				g[i] = xx(equipments[i]) - x - gmin;
 				if (i > 0)
 				{
-					g[i] -=  equipments[i - 1].x - x + equipments[i - 1].width;
+					g[i] -=  xx(equipments[i - 1]) - x + ww(equipments[i - 1]);
 				}
 				totalGap +=  g[i];
 			}
 			for (i = index; i < equipments.length; i++)
 			{
-				g[i] = x + width - equipments[i].x - equipments[i].width - gmin;
+				g[i] = x + width - xx(equipments[i]) - ww(equipments[i]) - gmin;
 				if (i < equipments.length - 1)
 				{
-					g[i] -=  x + width - equipments[i + 1].x;
+					g[i] -=  x + width - xx(equipments[i + 1]);
 				}
 				totalGap +=  g[i];
 			}
@@ -69,7 +81,7 @@
 			// case 1: enough space, no need to move existing equipments
 			if (totalDelta < 0)
 			{
-				e.x = Math.min(Math.max(e.x,l + gmin),r - e.width - gmin);
+				moveEquipment(e, Math.min(Math.max(xx(e),l + gmin),r - ww(e) - gmin));
 			}
 			else
 			{
@@ -83,19 +95,18 @@
 						newX +=  (1-k) * g[i] + gmin;
 						if (i > 0)
 						{
-							newX += equipments[i - 1].width;
+							newX +=  ww(equipments[i - 1]);
 						}
 						moveEquipment(equipments[i], newX);
 					}
 					newX = x + width;
 					for (i = equipments.length-1; i >= index; i--)
 					{
-						newX -=  equipments[i].width + (1-k) * g[i] + gmin;
+						newX -=  ww(equipments[i]) + (1-k) * g[i] + gmin;
 						moveEquipment(equipments[i], newX);
 					}
-					newX -=  e.width + gmin;
+					newX -=  ww(e) + gmin;
 					moveEquipment(e, newX);
-					//e.x = newX;
 				}
 				else
 				{
@@ -108,8 +119,17 @@
 			return true;
 		}
 
-		private function moveEquipment(e:Equipment, newX:Number) {
-			Animation.move(e, newX, e.y, 200);
+		private function xx(e:Equipment):Number {
+			return e.x + e.baseLine.x;
+		}
+		
+		private function ww(e:Equipment):Number {
+			return e.baseLine.width;
+		}
+
+		private function moveEquipment(e:Equipment, newX:Number)
+		{
+			Animation.move(e, newX-e.baseLine.x, e.y, 200);
 		}
 
 		public function removeEquipment(e:Equipment)

@@ -6,6 +6,10 @@
 			// constructor code
 		}
 
+		public override function  get baseLine():MovieClip {
+			return _baseLine;
+		}
+
 	}
 	
 }

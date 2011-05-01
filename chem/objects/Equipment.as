@@ -10,6 +10,12 @@
 		public function Equipment()
 		{
 			this.addEventListener(MouseEvent.MOUSE_DOWN, InteractionProvider.equipmentOnMouseDown);
+			baseLine.visible = false;
+		}
+
+		public function get baseLine():MovieClip
+		{
+			return null;
 		}
 
 	}

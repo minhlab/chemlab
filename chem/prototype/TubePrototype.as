@@ -1,10 +1,10 @@
 ﻿package chem.prototype {
 	import chem.objects.Tube;
+	import chem.objects.Equipment;
 	
 	public class TubePrototype extends AbstractPrototype {
 
 		public function TubePrototype() {
-			// constructor code
 		}
 
 		public override function createEquipment() : Equipment {
