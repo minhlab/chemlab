@@ -1,5 +1,6 @@
 ﻿package chem.model
 {
+	import chem.util.ChemicalUtils;
 
 	public class Oxide extends Chemical
 	{
@@ -9,21 +10,10 @@
 
 		public function Oxide(aMetal:Metal, valence:int, color:int)
 		{
-			super(getOxideName(aMetal, valence), color, STATE_SOLID);
+			super(ChemicalUtils.combine(aMetal.name, valence, "O", 2), 
+			  color, STATE_SOLID, 0);
 			_metal = aMetal;
 			_valence = valence;
-		}
-
-		private static function getOxideName(aMetal:Metal, valence:int):String
-		{
-			if (valence == 2) {
-				return aMetal.name + "O";
-			}
-			if (valence % 2 == 0)
-			{
-				return aMetal.name + "O" + (valence/2);
-			}
-			return aMetal.name + "2O" + valence;
 		}
 
 		public function get metal():Metal

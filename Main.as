@@ -15,6 +15,7 @@
 	import chem.prototype.ElectrolysisTankPrototype;
 	import chem.model.Chemical;
 	import chem.model.ChemicalProvider;
+	import chem.environment.Properties;
 
 	public class Main extends MovieClip
 	{
@@ -26,6 +27,12 @@
 			this.addEventListener(Event.ADDED_TO_STAGE, function() {
 			InteractionProvider.init(stage);
 			});
+			initProperties();
+		}
+		
+		private function initProperties(){
+			var _properties:Properties = new Properties();
+			this.addChild(_properties);
 		}
 
 		private function initToolbox()
@@ -39,11 +46,13 @@
 
 		private function initChemicalStore()
 		{
+			chemicalStore.add(ChemicalProvider.WATER_LIQUID);
 			chemicalStore.add(ChemicalProvider.NATRI);
 			chemicalStore.add(ChemicalProvider.FERIT);
 			chemicalStore.add(ChemicalProvider.H2SO4);
 			chemicalStore.add(ChemicalProvider.HCL);
 			chemicalStore.add(ChemicalProvider.NAOH);
+			//chemicalStore.add(ChemicalProvider.CUCL);
 		}
 
 		private static var _instance:Main;

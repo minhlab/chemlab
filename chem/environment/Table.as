@@ -30,7 +30,7 @@
 		public function addEquipment(e:Equipment):Boolean
 		{
 			var destY:Number = topY - e.baseLine.y;
-			if (e.y > destY)
+			if (e.y >= destY)
 			{
 				e.y = destY;
 			}

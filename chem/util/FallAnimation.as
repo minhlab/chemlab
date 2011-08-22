@@ -8,7 +8,7 @@
 	{
 
 		private var dyMax = 17,dy1 = 50,dy2 = 25;
-		private var dt = 40; // (ms)
+		private var dt = 40;// (ms)
 		private var y0:Number,y1:Number,y2:Number,y3:Number;
 		private var i:int = 0,k:int = 0;
 		private var phraseId:uint;
@@ -25,17 +25,16 @@
 			y0 = o.y;
 			y3 = destY;
 			// special positions
-			if (y0 + dy1 + dy2 < y3)
+			if (y0 + dy1 + dy2 > y3)
 			{
-				y1 = y0 + dy1;
-				y2 = y3 - dy2;
+				var k :Number = (y3- y0)/(dy1+dy2);
+				dy1 *=  k;
+				dy2 *=  k;
+				dyMax *=  k;
 			}
-			else
-			{
-				y1 = y2 = (y0 + dy1 + y3 - dy2)/2;
-				dyMax *= (y1 - y0) / dy1;
-			}
-			//trace(y0 + ", " + y1 + ", " + y2 + ", " + y3);
+			y1 = y0 + dy1;
+			y2 = y3 - dy2;
+			trace(y0 + ", " + y1 + ", " + y2 + ", " + y3);
 		}
 
 		public override function run()
@@ -64,7 +63,8 @@
 				if (o.y < y2)
 				{
 					phraseId = setInterval(phrase2,dt);
-				} else
+				}
+				else
 				{
 					phraseId = setInterval(phrase3,dt);
 				}
@@ -80,7 +80,8 @@
 			{
 				clearInterval(phraseId);
 				o.y = y2;
-				if (o.y < y3) {
+				if (o.y < y3)
+				{
 					phraseId = setInterval(phrase3,dt);
 				}
 			}
@@ -88,9 +89,10 @@
 
 		private function phrase3()
 		{
-			var dy = dyMax - dyMax * dyMax / 4 / dy2 * (2*k + 1)
-			if (dy > 0) {
-				o.y += dy;
+			var dy = dyMax - dyMax * dyMax / 4 / dy2 * (2*k + 1);
+			if (dy > 0)
+			{
+				o.y +=  dy;
 				k++;
 			}
 			//trace(o.y);

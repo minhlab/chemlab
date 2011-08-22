@@ -1,5 +1,6 @@
 ﻿package chem.model
 {
+	import chem.util.ChemicalUtils;
 
 	public class Base extends Chemical
 	{
@@ -9,21 +10,10 @@
 
 		public function Base(aMetal:Metal, valence:int, color:int)
 		{
-			super(getBaseName(aMetal, valence), color, STATE_LIQUID);
+			super(ChemicalUtils.combine(aMetal.name, valence, "(OH)", 1), 
+				  color, STATE_LIQUID);
 			_metal = aMetal;
 			_valence = valence;
-		}
-
-		private static function getBaseName(aMetal:Metal, valence:int):String
-		{
-			if (valence == 2) {
-				return aMetal.name + "OH";
-			}
-			if (valence % 2 == 0)
-			{
-				return aMetal.name + "(OH)" + (valence/2);
-			}
-			return aMetal.name + "2(OH)" + valence;
 		}
 
 		public function get metal():Metal

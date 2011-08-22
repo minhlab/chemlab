@@ -4,18 +4,24 @@
 	import flash.geom.ColorTransform;
 	
 	
-	public class BeakerLiquid extends MovieClip {
-		
+	public class BeakerLiquid extends LiquidClip {
+		public static const MAX_LEVEL:Number = 160;
 		var _level:Number; //h<=160
 		var _color:Number;
+				
 		public function BreakerLiquid(level:Number=0/*height<160*/,color:Number = 0xFFFFFF00/*color*/) {
 			this.level = level;
 			this.color = color;
 		}
 		
 		public function updateLevel(){
-			if ((this._level>0)&&(this._level<=160)){
-				for (var j:Number = this.numChildren-1; j>=0;j--){
+			var j:int;
+			if (this._level<=0){
+				for (j = this.numChildren-1; j>=0;j--){
+					this.removeChildAt(j);
+				}
+			}else if ((this._level>0)&&(this._level<=MAX_LEVEL)){
+				for (j = this.numChildren-1; j>=0;j--){
 					this.removeChildAt(j);
 				}
 				
@@ -42,6 +48,7 @@
 		
 		public function updateColor(){
 			if (this._level>0){
+				//trace((this._color >> 24)&0xFF, (this._color >> 16)&0xFF,(this._color >> 8)&0xFF);
 				var colorTransform:ColorTransform = new ColorTransform(1,1,1,1,(((this._color >> 24)&0xFF)-0xFF),(((this._color >> 16)&0xFF)-0xFF),(((this._color >> 8)&0xFF)-0xFF),0);
 				this.transform.colorTransform=colorTransform;
 			}

@@ -7,7 +7,7 @@
 
 		public function Metal(name:String, aValence:int, aColor:int)
 		{
-			super(name, aColor,STATE_SOLID);
+			super(name, aColor,STATE_SOLID, 0);
 			_defaultValence = aValence;
 		}
 

@@ -4,6 +4,9 @@
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.display.MovieClip;
+	import chem.effect.Flames;
+	import flash.utils.setInterval;
+	import flash.utils.clearInterval;
 
 	public class SpiritLamp extends Equipment
 	{
@@ -17,11 +20,12 @@
 			removeChild(lowerMarker);
 			hideBase();
 
-			frontCover.addEventListener(MouseEvent.MOUSE_DOWN, onFrontCoverMouseDown);
-			frontCover.addEventListener(Event.ADDED_TO_STAGE, function(evt:Event) {
+			frontCover.addEventListener(MouseEvent.MOUSE_DOWN,onFrontCoverMouseDown);
+			frontCover.addEventListener(Event.ADDED_TO_STAGE,function(evt:Event) {
 			stage.addEventListener(MouseEvent.MOUSE_UP, onFrontCoverMouseUp);
 			stage.addEventListener(Event.ENTER_FRAME, onFrontCoverEnterFrame);
 			});
+
 		}
 
 		public function onFrontCoverMouseDown(evt:MouseEvent)
@@ -64,13 +68,14 @@
 		private function testCoverGesture():Boolean
 		{
 			var dx:Number = frontCover.x - body.neck.x;
-			var dy:Number = (body.neck.y + body.neck.height) - (frontCover.y+frontCover.height);
-			return dx > -frontCover.width && dx < body.neck.width && dy > -20 && dy < body.neck.height;
+			var dy:Number = (body.neck.y + body.neck.height) - (frontCover.y + frontCover.height);
+			//trace(dx, dy);
+			return dx >  -  frontCover.width + 2 && dx < body.neck.width - 6 && dy > -20 && dy < body.neck.height;
 		}
 
 		public function showBase():void
 		{
-			addChildAt(base, 0);
+			addChildAt(base,0);
 		}
 
 		public function hideBase():void
@@ -104,14 +109,26 @@
 			return _baseLine;
 		}
 
+		private var burnId:uint;
+
 		private function startBurning():void
 		{
-
+			this.body.startBurning();
+			burnId = setInterval(burn,40);
 		}
 
 		private function stopBurning():void
 		{
+			this.body.stopBurning();
+			clearInterval(burnId);
+		}
 
+		private function burn()
+		{
+			if (base.equipment != null && base.equipment is LiquidContainer)
+			{
+				LiquidContainer(base.equipment).liquid.burn(20);
+			}
 		}
 
 	}

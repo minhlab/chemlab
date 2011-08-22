@@ -3,18 +3,23 @@
 	import flash.display.MovieClip;
 	import flash.geom.ColorTransform;
 	
-	public class TubeLiquid extends MovieClip {
-		
-		var _level:Number; //h<=160
+	public class TubeLiquid extends LiquidClip {
+		public static const MAX_LEVEL = 220;
+		var _level:Number; //h<=220
 		var _color:Number;
-		public function TubeLiquid(level:Number/*height<160*/,color:Number = 0xFFFFFF00/*color*/) {
+		public function TubeLiquid(level:Number=0/*height<220*/,color:Number = 0xFFFFFF00/*color*/) {
 			this.level = level;
 			this.color = color;
 		}
 		
 		public function updateLevel(){
-			if ((this._level>0)&&(this._level<=220)){
-				for (var j:Number = this.numChildren-1; j>=0;j--){
+			var j;
+			if (this._level<=0){
+				for (j = this.numChildren-1; j>=0;j--){
+					this.removeChildAt(j);
+				}
+			}else if ((this._level>0)&&(this._level<=MAX_LEVEL)){
+				for (j = this.numChildren-1; j>=0;j--){
 					this.removeChildAt(j);
 				}
 				
